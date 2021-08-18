@@ -10,14 +10,15 @@ import { storageService } from './storage.service.js'
 var gMap;
 const gLocations = storageService.load('locationsDB') || []
 
-function initMap(lat = 32.0749831, lng = 34.9120554) {
+function initMap(pos) {
     // console.log('InitMap');
+    if (!pos) pos = { lat: 32.0749831, lng: 34.9120554 }
     return _connectGoogleApi()
         .then(() => {
             // console.log('google available');
             gMap = new google.maps.Map(
                 document.querySelector('#map'), {
-                    center: { lat, lng },
+                    center: pos,
                     zoom: 15
                 })
             console.log('Map!', gMap);
