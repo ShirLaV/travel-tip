@@ -12,6 +12,7 @@ window.onDeleteLoc = onDeleteLoc;
 
 function onInit() {
     const pos = getUrlPosition()
+    console.log(pos)
     mapService.initMap(pos)
         .then((map) => {
             console.log('Map is ready');
@@ -106,8 +107,8 @@ function onCopyLink(elBtn) {
 }
 
 function getUrlPosition() {
-    const lat = getQueryVariable('lat');
-    const lng = getQueryVariable('lng');
+    const lat = +getQueryVariable('lat');
+    const lng = +getQueryVariable('lng');
     return { lat, lng }
 }
 

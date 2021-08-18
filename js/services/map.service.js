@@ -12,7 +12,7 @@ const gLocations = storageService.load('locationsDB') || []
 
 function initMap(pos) {
     // console.log('InitMap');
-    if (!pos) pos = { lat: 32.0749831, lng: 34.9120554 }
+    if (!pos.lat || !pos.lng) pos = { lat: 32.0749831, lng: 34.9120554 }
     return _connectGoogleApi()
         .then(() => {
             // console.log('google available');
