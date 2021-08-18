@@ -102,7 +102,7 @@ function onCopyLink(elBtn) {
             document.execCommand('copy');
             inputc.parentNode.removeChild(inputc);
             elBtn.innerText = 'Link copied!'
-            setTimeout(() => { elBtn.innerText = 'Copy' }, 2000)
+            setTimeout(() => { elBtn.innerText = 'Copy Location' }, 2000)
         })
 }
 
