@@ -9,8 +9,19 @@ window.onGetUserPos = onGetUserPos;
 
 function onInit() {
     mapService.initMap()
-        .then(() => {
+        .then((map) => {
             console.log('Map is ready');
+            map.addListener('click', (mapsMouseEvent) => {
+                console.log('Map clicked!')
+                    const location = mapsMouseEvent.latLng.toJSON()
+                    console.log(location);
+                    // const locationLat = location.lat
+                    // const locationLng = location.lng
+                    locService.getAddress(location)
+                    // console.log(locationLat);
+                    // getAddressFromCoords(locationLat, locationLng)
+            })
+
         })
         .catch(() => console.log('Error: cannot init map'));
 }
@@ -22,6 +33,8 @@ function getPosition() {
         navigator.geolocation.getCurrentPosition(resolve, reject)
     })
 }
+
+
 
 function onAddMarker() {
     console.log('Adding a marker');
@@ -47,6 +60,7 @@ function onGetUserPos() {
             console.log('err!!!', err);
         })
 }
+
 function onPanTo() {
     console.log('Panning the Map');
     mapService.panTo(35.6895, 139.6917);

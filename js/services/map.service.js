@@ -4,7 +4,11 @@ export const mapService = {
     panTo
 }
 
+import { storageService } from './storage.service.js'
+
+
 var gMap;
+const gLocations = storageService.load('locationsDB') || []
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     console.log('InitMap');
@@ -13,10 +17,18 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
             console.log('google available');
             gMap = new google.maps.Map(
                 document.querySelector('#map'), {
-                    center: { lat, lng },
-                    zoom: 15
-                })
+                center: { lat, lng },
+                zoom: 15
+            })
             console.log('Map!', gMap);
+            return gMap
+        })
+}
+
+function getAddressFromCoords(lat, lng) {
+    const prm = axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${API_KEY}`)
+        .then(res => {
+            console.log(res.data)
         })
 }
 
