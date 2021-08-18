@@ -1,14 +1,19 @@
 export const locService = {
     getLocs,
     getSearchPos,
-    getAddress
+    getAddress,
+    deleteLoc
 }
 
+import { storageService } from './storage.service.js'
+
 const API_KEY = 'AIzaSyBZ9rdVSQnQ_VgaChu60lkDetLhzHoqCCg'
+const gLocations = storageService.load('locationsDB') || []
+let gCurrId = 101
 
 const locs = [
-    { name: 'Greatplace', lat: 32.047104, lng: 34.832384 },
-    { name: 'Neveragain', lat: 32.047201, lng: 34.832581 }
+    { id: gCurrId++, name: 'Greatplace', lat: 32.047104, lng: 34.832384 },
+    { id: gCurrId++, name: 'Neveragain', lat: 32.047201, lng: 34.832581 }
 ]
 
 function getLocs() {
@@ -19,11 +24,33 @@ function getLocs() {
     });
 }
 
-function getAddress(location) {
+function deleteLoc(locId) {
+    const idx = locs.findIndex(loc => loc.id === locId)
+    locs.splice(idx, 1)
+    storageService.save('locationsDB', locs)
+    return locs
+}
+
+function getAddress(location, cb) {
     console.log(location);
-    axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=${API_KEY}`)
+    axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lng}&key=${API_KEY}`)
         .then(res => {
-            console.log(res.data);
+            // console.log(res.data.results[0].formatted_address);
+            return res.data.results[0].formatted_address
+        })
+        .then(res => {
+            console.log(res, location);
+            locs.push({
+                id: gCurrId++,
+                name: res,
+                lat: location.lat,
+                lng: location.lng
+            })
+            storageService.save('locationsDB', locs)
+            return locs
+        })
+        .then(res => {
+            cb(res)
         })
 }
 

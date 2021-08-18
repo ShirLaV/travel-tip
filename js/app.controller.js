@@ -7,6 +7,7 @@ window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onGetSearchPos = onGetSearchPos;
+window.onDeleteLoc = onDeleteLoc;
 
 function onInit() {
     mapService.initMap()
@@ -15,16 +16,27 @@ function onInit() {
             map.addListener('click', (mapsMouseEvent) => {
                 console.log('Map clicked!')
                 const location = mapsMouseEvent.latLng.toJSON()
-                console.log(location);
-                // const locationLat = location.lat
-                // const locationLng = location.lng
-                locService.getAddress(location)
-                    // console.log(locationLat);
-                    // getAddressFromCoords(locationLat, locationLng)
+                onAddMarker(location.lat, location.lng)
+                locService.getAddress(location, renderLocs)
             })
-
         })
         .catch(() => console.log('Error: cannot init map'));
+}
+
+function renderLocs(locs) {
+    const strHTMLs = locs.map(loc => {
+        return `<tr>
+        <td>${loc.name}</td>
+        <td><button onclick="onPanTo(${loc.lat}, ${loc.lng}, '${loc.name}')">Go</button></td>
+        <td><button onclick="onDeleteLoc(${loc.id})">Delete</button></td>
+        </tr>`
+    }).join('')
+    document.querySelector('tbody').innerHTML = strHTMLs
+}
+
+function onDeleteLoc(locId) {
+    const locs = locService.deleteLoc(locId)
+    renderLocs(locs)
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
@@ -43,7 +55,6 @@ function onAddMarker(lat, lng) {
 function onGetLocs() {
     locService.getLocs()
         .then(locs => {
-            // console.log('Locations:', locs)
             document.querySelector('.locs').innerText = JSON.stringify(locs)
         })
 }
@@ -70,8 +81,9 @@ function onGetSearchPos() {
         })
 }
 
-function onPanTo(lat, lng) {
+function onPanTo(lat, lng, location) {
     // console.log('Panning the Map');
-    mapService.panTo(lat, lng);
+    mapService.panTo(lat, lng)
     onAddMarker(lat, lng)
+    if (location) document.querySelector('.user-pos').innerText = location
 }
