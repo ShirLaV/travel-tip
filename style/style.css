@@ -4,7 +4,63 @@
 
 body {
     margin: 0;
-    /* background-color: ; */
+    background-color: #f3f3f3;
+}
+
+@font-face {
+    font-family: 'Open-Sans bold';
+    src: url(../fonts/OpenSans-Bold.ttf);
+}
+
+header {
+    background-color: #fff;
+    padding: 20px;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #a9aaa9;
+}
+
+h1.logo {
+    margin: 0;
+    font-family: Open-Sans bold;
+}
+
+.logo .blue {
+    color: #1391d2;
+}
+
+.logo .orange {
+    color: #fc9e15;
+}
+
+.logo .red {
+    color: #e3403d;
+}
+
+
+
+.weather-container {
+    height: 50%;
+    width: 100%;
+    border: 1px solid #333;
+}
+
+.location-container {
+    width: 100%;
+    height: 50%;
+}
+
+/* .map {
+    margin: 20px;
+} */
+
+.main-content {
+    width: 40%;
+}
+
+main {
+    gap: 20px;
+    padding: 20px;
 }
 
 
@@ -12,4 +68,9 @@ body {
 
 .flex {
     display: flex;
+}
+
+.main-layout {
+    max-width: 1300px;
+    margin: auto;
 }
