@@ -36,7 +36,7 @@ function getPosition() {
 }
 
 function onAddMarker(lat, lng) {
-    console.log('Adding a marker');
+    // console.log('Adding a marker');
     mapService.addMarker({ lat, lng });
 }
 
