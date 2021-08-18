@@ -10,8 +10,19 @@ window.onGetSearchPos = onGetSearchPos;
 
 function onInit() {
     mapService.initMap()
-        .then(() => {
-            // console.log('Map is ready');
+        .then((map) => {
+            console.log('Map is ready');
+            map.addListener('click', (mapsMouseEvent) => {
+                console.log('Map clicked!')
+                const location = mapsMouseEvent.latLng.toJSON()
+                console.log(location);
+                // const locationLat = location.lat
+                // const locationLng = location.lng
+                locService.getAddress(location)
+                    // console.log(locationLat);
+                    // getAddressFromCoords(locationLat, locationLng)
+            })
+
         })
         .catch(() => console.log('Error: cannot init map'));
 }

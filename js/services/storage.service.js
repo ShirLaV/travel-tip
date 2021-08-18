@@ -3,7 +3,7 @@ export const storageService = {
     load: loadFromStorage
 }
 // technique for debug from console:
-window.storush = storageService
+// window.storush = storageService
 
 
 function saveToStorage(key, val) {

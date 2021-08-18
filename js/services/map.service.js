@@ -4,7 +4,11 @@ export const mapService = {
     panTo,
 }
 
+import { storageService } from './storage.service.js'
+
+
 var gMap;
+const gLocations = storageService.load('locationsDB') || []
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     // console.log('InitMap');
@@ -12,13 +16,15 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
         .then(() => {
             // console.log('google available');
             gMap = new google.maps.Map(
-                    document.querySelector('#map'), {
-                        center: { lat, lng },
-                        zoom: 15
-                    })
-                // console.log('Map!', gMap);
+                document.querySelector('#map'), {
+                    center: { lat, lng },
+                    zoom: 15
+                })
+            console.log('Map!', gMap);
+            return gMap
         })
 }
+
 
 function addMarker(loc) {
     var marker = new google.maps.Marker({
