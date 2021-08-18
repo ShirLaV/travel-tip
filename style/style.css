@@ -5,11 +5,22 @@
 body {
     margin: 0;
     background-color: #f3f3f3;
+    font-family: 'Open-Sans regular';
+}
+
+button {
+    cursor: pointer;
+    font-family: 'Open-Sans bold';
 }
 
 @font-face {
     font-family: 'Open-Sans bold';
     src: url(../fonts/OpenSans-Bold.ttf);
+}
+
+@font-face {
+    font-family: 'Open-Sans regular';
+    src: url(../fonts/OpenSans-Regular.ttf);
 }
 
 header {
@@ -18,6 +29,31 @@ header {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #a9aaa9;
+}
+
+input[name=search] {
+    padding: 7px;
+    border-radius: .4em;
+    border: 1px solid rgb(158, 157, 157);
+}
+
+header button {
+    border-radius: .4em;
+    border: 1px solid rgb(158, 157, 157);
+    padding: 5px 10px;
+    color: #fff;
+}
+
+header button:first-of-type {
+    background-color: #1391d2;
+}
+
+header button:nth-of-type(2) {
+    background-color: #fc9e15;
+}
+
+header button:nth-of-type(3) {
+    background-color: #e3403d;
 }
 
 h1.logo {
@@ -37,12 +73,43 @@ h1.logo {
     color: #e3403d;
 }
 
-table {
-    border-collapse: collapse;
+.location-card {
+    gap: 10px;
+    border: 1px solid rgb(202, 197, 197);
+    background-color: #fff;
+    border-radius: .4em;
+    padding: 10px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
 
-td {
-    border: 1px solid #333;
+.location-card > div {
+    gap: 10px;
+}
+
+.location-card button {
+    border-radius: .4em;
+    border: 1px solid rgb(158, 157, 157);
+    /* border: none; */
+    padding: 10px 15px;
+    color: #fff;
+}
+
+button.go-btn {
+    background-color: #fc9e15;
+}
+
+button.go-btn:hover {
+    background-color: #fca015b2;
+}
+
+button.delete-btn {
+    background-color: #e3403d;
+}
+
+button.delete-btn:hover {
+    background-color: #e3403dce;
 }
 
 .weather-container {

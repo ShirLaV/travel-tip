@@ -12,17 +12,12 @@
     <header class="flex">
         <h1 class="logo"><span class="blue">tra</span><span class="orange">vel</span><span class="red">tip</span></h1>
         <div class="search-container">
-            <input type="search" placeholder="Enter location" />
+            <input name="search" type="search" placeholder="Enter location" />
             <button onclick="onGetSearchPos()">Go</button>
             <button onclick="onGetUserPos()" class="btn-user-pos">My Location</button>
             <button onclick="onCopyLink(this)">Copy Location</button>
         </div>
-        <!-- <button>My location</button> -->
     </header>
-
-    <!-- <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Specific Location</button>
-        <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>
-        <button onclick="onPanTo()" class="btn-pan">Pan Map to Tokyo</button> -->
 
     <main class="main-layout flex">
         <section class="main-content">
@@ -34,14 +29,7 @@
             </section>
             <div class="location-container">
                 <p>You are at: <span class="user-pos"></span></p>
-                <table class="locations">
-                    <thead>
-                        <th>Location</th>
-                        <th>Go</th>
-                        <th>Delete</th>
-                        </thead>
-                        <tbody></tbody>
-                </table>
+               <div class="locations-container"></div>
             </div>
         </section>
         <div class="map" id="map" style="width: 60%; height: 60vh;"></div>

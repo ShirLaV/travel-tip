@@ -12,12 +12,11 @@ window.onDeleteLoc = onDeleteLoc;
 
 function onInit() {
     const pos = getUrlPosition()
-    console.log(pos)
     mapService.initMap(pos)
         .then((map) => {
-            console.log('Map is ready');
+            const initPos = (!pos.lat || !pos.lng) ? { lat: 32.0749831, lng: 34.9120554 } : pos
+            locService.getAddress(initPos, renderLocs)
             map.addListener('click', (mapsMouseEvent) => {
-                console.log('Map clicked!')
                 const location = mapsMouseEvent.latLng.toJSON()
                 onAddMarker(location.lat, location.lng)
                 locService.getAddress(location, renderLocs)
@@ -27,14 +26,20 @@ function onInit() {
 }
 
 function renderLocs(locs) {
+    if (!locs) locs = locService.getLocs()
     const strHTMLs = locs.map(loc => {
-        return `<tr>
-        <td>${loc.name}</td>
-        <td><button onclick="onPanTo(${loc.lat}, ${loc.lng}, '${loc.name}')">Go</button></td>
-        <td><button onclick="onDeleteLoc(${loc.id})">Delete</button></td>
-        </tr>`
+        return `<div class="location-card flex">
+        <p>${loc.name}</p>
+        <div class="flex">
+        <button class="go-btn" onclick="onPanTo(${loc.lat}, ${loc.lng}, '${loc.name}')">Go</button>
+        <button class="delete-btn" onclick="onDeleteLoc(${loc.id})">Delete</button>
+        </div>
+        </div>`
     }).join('')
-    document.querySelector('tbody').innerHTML = strHTMLs
+    const lastLoc = locs[locs.length-1]
+    document.querySelector('.locations-container').innerHTML = strHTMLs
+    document.querySelector('.user-pos').innerText = (lastLoc.name)
+    onAddMarker(lastLoc.lat, lastLoc.lng)
 }
 
 function onDeleteLoc(locId) {
@@ -44,14 +49,12 @@ function onDeleteLoc(locId) {
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
 function getPosition() {
-    // console.log('Getting Pos');
     return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject)
     })
 }
 
 function onAddMarker(lat, lng) {
-    // console.log('Adding a marker');
     mapService.addMarker({ lat, lng });
 }
 
@@ -65,10 +68,7 @@ function onGetLocs() {
 function onGetUserPos() {
     getPosition()
         .then(pos => {
-            console.log('User position is:', pos.coords);
             onPanTo(pos.coords.latitude, pos.coords.longitude);
-            // document.querySelector('.user-pos').innerText =
-            //     `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
         })
         .catch(err => {
             console.log('err!!!', err);
@@ -85,7 +85,6 @@ function onGetSearchPos() {
 }
 
 function onPanTo(lat, lng, location) {
-    // console.log('Panning the Map');
     mapService.panTo(lat, lng)
     onAddMarker(lat, lng)
     if (location) document.querySelector('.user-pos').innerText = location
