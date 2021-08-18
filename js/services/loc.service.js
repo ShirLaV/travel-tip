@@ -36,7 +36,7 @@ function getSearchPos(adress) {
     return axios.get(url)
         .then(res => {
             console.log(res.data);
-            return res.data.results.geometry.location
+            return res.data.results[0].geometry.location
         })
 
 }
