@@ -7,8 +7,10 @@ window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onGetSearchPos = onGetSearchPos;
+window.onCopyLink = onCopyLink;
 
 function onInit() {
+    getUrlPosition()
     mapService.initMap()
         .then((map) => {
             console.log('Map is ready');
@@ -74,4 +76,35 @@ function onPanTo(lat, lng) {
     // console.log('Panning the Map');
     mapService.panTo(lat, lng);
     onAddMarker(lat, lng)
+}
+
+function onCopyLink(elBtn) {
+    getPosition()
+        .then(pos => {
+            const link = `https://shirlav.github.io/travel-tip/index.html?lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`
+            const inputc = document.body.appendChild(document.createElement("input"));
+            inputc.value = link;
+            inputc.focus();
+            inputc.select();
+            document.execCommand('copy');
+            inputc.parentNode.removeChild(inputc);
+            elBtn.innerText = 'Link copied!'
+            setTimeout(() => { elBtn.innerText = 'Copy' }, 2000)
+        })
+}
+
+function getUrlPosition() {
+    const lat = getQueryVariable('lat');
+    const lng = getQueryVariable('lng');
+    return { lat, lng }
+}
+
+function getQueryVariable(variable) {
+    const query = window.location.search.substring(1);
+    const vars = query.split("&");
+    for (let i = 0; i < vars.length; i++) {
+        const pair = vars[i].split("=");
+        if (pair[0] == variable) { return pair[1]; }
+    }
+    return (false);
 }
