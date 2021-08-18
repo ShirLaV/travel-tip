@@ -1,5 +1,6 @@
 import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
+import { weatherService } from './services/weather.service.js'
 
 window.onload = onInit;
 window.onAddMarker = onAddMarker;
@@ -36,10 +37,22 @@ function renderLocs(locs) {
         </div>
         </div>`
     }).join('')
-    const lastLoc = locs[locs.length-1]
+    const lastLoc = locs[locs.length - 1]
     document.querySelector('.locations-container').innerHTML = strHTMLs
     document.querySelector('.user-pos').innerText = (lastLoc.name)
     onAddMarker(lastLoc.lat, lastLoc.lng)
+
+    weatherService.getWeather(lastLoc, renderWeather);
+}
+
+function renderWeather(location, weatherInfo) {
+    const strHTML = `<img src="http://openweathermap.org/img/wn/${weatherInfo.weather[0].icon}@2x.png"/>
+    <p>${location.name} | ${weatherInfo.weather[0].main}</p>
+    <p><span>${weatherInfo.main.temp}°C</span> 
+    temprature from ${weatherInfo.main.temp_min} to ${weatherInfo.main.temp_max}°C | 
+    wind ${weatherInfo.wind.speed} m/s</p>`
+
+    document.querySelector('.weather').innerHTML = strHTML;
 }
 
 function onDeleteLoc(locId) {
@@ -68,6 +81,7 @@ function onGetLocs() {
 function onGetUserPos() {
     getPosition()
         .then(pos => {
+            locService.getAddress({ lat: pos.coords.latitude, lng: pos.coords.longitude }, renderLocs)
             onPanTo(pos.coords.latitude, pos.coords.longitude);
         })
         .catch(err => {
@@ -79,12 +93,12 @@ function onGetSearchPos() {
     const adress = document.querySelector('[type=search]').value;
     locService.getSearchPos(adress)
         .then(pos => {
-            onPanTo(pos.lat, pos.lng);
-            document.querySelector('.user-pos').innerText = adress;
+            onPanTo(pos.lat, pos.lng, adress);
         })
 }
 
 function onPanTo(lat, lng, location) {
+    weatherService.getWeather({ name: location, lat, lng }, renderWeather);
     mapService.panTo(lat, lng)
     onAddMarker(lat, lng)
     if (location) document.querySelector('.user-pos').innerText = location

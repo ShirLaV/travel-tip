@@ -84,7 +84,7 @@ h1.logo {
     margin-bottom: 10px;
 }
 
-.location-card > div {
+.location-card>div {
     gap: 10px;
 }
 
@@ -113,15 +113,21 @@ button.delete-btn:hover {
 }
 
 .weather-container {
-    height: 50%;
+    /* height: 50%; */
     width: 100%;
     border: 1px solid #333;
+    background-color: white;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid rgb(202, 197, 197);
+    border-radius: .4em;
 }
 
 .location-container {
     width: 100%;
     height: 50%;
 }
+
 
 /* .map {
     margin: 20px;
