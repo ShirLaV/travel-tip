@@ -10,8 +10,8 @@ window.onGetSearchPos = onGetSearchPos;
 window.onCopyLink = onCopyLink;
 
 function onInit() {
-    getUrlPosition()
-    mapService.initMap()
+    const pos = getUrlPosition()
+    mapService.initMap(pos)
         .then((map) => {
             console.log('Map is ready');
             map.addListener('click', (mapsMouseEvent) => {
