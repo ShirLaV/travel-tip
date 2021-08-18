@@ -12,8 +12,7 @@ const gLocations = storageService.load('locationsDB') || []
 let gCurrId = 101
 
 const locs = [
-    { id: gCurrId++, name: 'Greatplace', lat: 32.047104, lng: 34.832384 },
-    { id: gCurrId++, name: 'Neveragain', lat: 32.047201, lng: 34.832581 }
+    
 ]
 
 function getLocs() {
